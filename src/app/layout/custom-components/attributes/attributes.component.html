@@ -1,0 +1,118 @@
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card mb-3">
+          <h2 class="card-header"><strong>Manage <small>Attributes</small></strong></h2>
+          <div class="card-body">
+              <p>
+                  <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
+                      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                      Add Attribute
+                  </button>
+              </p>
+              <div id="collapseExample" [ngbCollapse]="isCollapsed">
+                <form #form="ngForm" autocomplete="off" (submit)="submitForm(form)">
+                    <input type="hidden" name="attribute_id" value="attribute.attribute_id">
+                    <div class="form-group input-group">
+                        <input class="form-control" name="attribute_name" #attribute_name="ngModel" [(ngModel)]="attribute.attribute_name" placeholder="Enter attribute name" required>
+                    </div>
+                    <div class="form-group input-group">
+                        <select class="form-control" name="attribute_status" #attribute_status="ngModel" [(ngModel)]="attribute.attribute_status" required>
+                            <option [ngValue]="1">Active</option>
+                            <option [ngValue]="2">Inactive</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid ">Save Changes</button>
+                </form>
+              </div>
+          </div>
+          <div class="card-body">
+              <div class="card">
+                  <div class="card-header">
+                      Attributes
+                  </div>
+                  <div class="card-body table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Attribute Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let attribute of attributes" (click)="openAttributeValue(attribute)" class="table-info">
+                                    <td>{{attribute.attribute_name}}</td>
+                                    <td>{{attribute.attribute_status == '1'? 'Active' : 'Inactive'}}</td>
+                                    <td class="form-inline"> 
+                                        <button class="btn btn-md btn-danger" (click)="deleteAttribute(attribute.attribute_id)"><i class="fa fa-trash-o"></i></button>&nbsp;
+                                        <button class="btn btn-success" (click)="editAttribute(attribute)"><i class="fa fa-edit"></i></button>&nbsp;
+                                        <!-- <button class="btn btn-primary" (click)="addAttributeValue(content)"><i class="fa fa fa-plus"></i></button> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+              </div>
+          </div>
+          <div class="card-body" *ngIf="isClicked">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Attribute Name: {{attribute_value.attribute_name}}</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form action="" #form_value="ngForm" autocomplete="off" (submit)="submitFormValue(form_value)">
+                                <div class="form-group input-group">
+                                    <input class="form-control" name="attribute_value_desc" #attribute_value_desc="ngModel" [(ngModel)]="attribute_value.attribute_value_desc" placeholder="Enter attribute value" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block" [disabled]="form_value.invalid ">Save Changes</button>
+                            </form>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    Attribute Values
+                                </div>
+                                <div class="card-body table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Attribute Value Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let attribute_value of attribute_values">
+                                                <td>{{attribute_value.attribute_value_desc}}</td>
+                                                <td>
+                                                    <button class="btn btn-md btn-danger" (click)="deleteAttributeValue(attribute_value.attribute_value_id)"><i class="fa fa-trash-o"></i></button>&nbsp;
+                                                    <button class="btn btn-success" (click)="editAttributeValue(attribute_value)"><i class="fa fa-edit"></i></button>&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>One fine body&hellip;</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary">Close</button>
+    </div>
+</ng-template>

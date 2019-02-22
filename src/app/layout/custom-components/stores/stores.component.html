@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card mb-3">
+      <h2 class="card-header"><strong>Manage <small>Stores</small></strong></h2>
+      <div class="card-body">
+        <p>
+          <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
+              [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+              Add Store
+          </button>
+        </p>
+        <div id="collapseExample" [ngbCollapse]="isCollapsed">
+          <form action="" #form="ngForm" autocomplete="off" (submit)="submitForm(form)">
+            <div class="form-group input-group">
+                <input type="text" class="form-control" name="store_name" #store_name="ngModel" [(ngModel)]="store.store_name" placeholder="Enter store name" required>
+            </div>
+            <div class="form-group input-group">
+              <select name="store_status" #store_status="ngModel" [(ngModel)]="store.store_status" class="form-control">
+                <option [ngValue]="1">Active</option>
+                <option [ngValue]="2">Inactive</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Save changes</button>
+          </form>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card">
+          <div class="card-header">
+            Stores
+          </div>
+          <div class="card-body table-responsive">
+            <table class="table table-hover table-striped ">
+              <thead>
+                <tr>
+                  <th>Store Name</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let store of stores" class="table-info">
+                  <td>{{store.store_name}}</td>
+                  <td>{{store.store_status == 1 ? 'Active' : 'Inactive'}}</td>
+                  <td class="form-inline"> 
+                      <button class="btn btn-md btn-danger" (click)="deleteStore(store.store_id)"><i class="fa fa-trash-o"></i></button>&nbsp;
+                      <button class="btn btn-success" (click)="editStore(store)"><i class="fa fa-edit"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
